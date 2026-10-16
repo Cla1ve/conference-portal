@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div class="hero-text">
+        <h1>{{ theme.hero_title }}</h1>
+        <p>{{ theme.hero_text }}</p>
+        {% if not user %}
+            <div class="hero-actions">
+                <a class="btn" href="/register">Оставить заявку</a>
+                <a class="btn btn-ghost" href="/login">У меня уже есть аккаунт</a>
+            </div>
+        {% elif user.role == 'user' %}
+            <div class="hero-actions"><a class="btn" href="/request/new">Новая заявка</a></div>
+        {% endif %}
+    </div>
+    <picture class="hero-img">
+        <source srcset="{{ url_for('static', filename='img/hero.webp') }}" type="image/webp">
+        <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Зал для мероприятий" width="560" height="360" loading="eager">
+    </picture>
+</section>
+
+<section>
+    <h2>{{ theme.events_title }}</h2>
+    {% if events %}
+    <div class="cards">
+        {% for e in events %}
+        <article class="card event-card">
+            <span class="badge">{{ e.room }}</span>
+            <h3>{{ e.name }}</h3>
+            <p class="muted">{{ e.date }}, {{ e.start_time }}</p>
+            {% if e.description %}<p>{{ e.description }}</p>{% endif %}
+        </article>
+        {% endfor %}
+    </div>
+    {% else %}
+        <p class="muted">Пока нет подтверждённых мероприятий.</p>
+    {% endif %}
+</section>
+{% endblock %}

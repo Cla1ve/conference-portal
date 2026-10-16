@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{% block title %}{{ theme.brand }}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+    <link rel="stylesheet" href="/theme.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="theme-{{ config.THEME }}">
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="/">
+                <img src="{{ url_for('static', filename='img/' + theme.logo) }}" alt="" width="36" height="36">
+                <span>{{ theme.brand }}</span>
+            </a>
+            <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+            <nav class="nav" id="nav">
+                <a href="/">Главная</a>
+                {% if user and user.role == 'user' %}
+                    <a href="/dashboard">Мои заявки</a>
+                    <a href="/request/new">Новая заявка</a>
+                {% elif user and user.role == 'admin' %}
+                    <a href="/admin">Панель администратора</a>
+                {% else %}
+                    <a href="/login">Вход</a>
+                    <a href="/register" class="btn btn-small">Регистрация</a>
+                {% endif %}
+                {% if user %}
+                    <span class="nav-user">{{ user.fio }}</span>
+                    <button class="btn btn-ghost btn-small" id="logout-btn">Выйти</button>
+                {% endif %}
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">{{ theme.brand }} · учебный проект · Маматисаков Э.С., 4ИСП9-45</div>
+    </footer>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

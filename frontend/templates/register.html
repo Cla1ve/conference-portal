@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Регистрация, {{ theme.brand }}{% endblock %}
+{% block content %}
+<div class="form-card">
+    <h1>Регистрация</h1>
+    <p class="muted">Создайте аккаунт, чтобы подавать заявки.</p>
+    <form id="register-form" novalidate>
+        <div class="field">
+            <label for="login">Логин</label>
+            <input id="login" name="login" type="text" autocomplete="username" placeholder="Латиница и цифры, от 6 символов">
+            <small class="error" data-error-for="login"></small>
+        </div>
+        <div class="field">
+            <label for="password">Пароль</label>
+            <input id="password" name="password" type="password" autocomplete="new-password" placeholder="От 8 символов">
+            <small class="error" data-error-for="password"></small>
+        </div>
+        <div class="field">
+            <label for="fio">ФИО</label>
+            <input id="fio" name="fio" type="text" autocomplete="name" placeholder="Иванов Иван Иванович">
+            <small class="error" data-error-for="fio"></small>
+        </div>
+        <div class="field">
+            <label for="phone">Телефон</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="8(900)-123-45-67">
+            <small class="error" data-error-for="phone"></small>
+        </div>
+        <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.ru">
+            <small class="error" data-error-for="email"></small>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <button class="btn btn-block" type="submit">Зарегистрироваться</button>
+    </form>
+    <p class="muted center">Уже есть аккаунт? <a href="/login">Войти</a></p>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/auth.js') }}"></script>{% endblock %}
