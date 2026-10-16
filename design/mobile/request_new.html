@@ -3,11 +3,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="export_mockups.py" content="8mrN7YpwEx9yuGbLKp1HygbCTxSjcUEu">
+    <meta name="generator" content="export_mockups.py" content="yj3ZwwnE8eZ-kYyn7rIC2bWzaNchBY8S">
     <title>Новая заявка, Конференции.РФ</title>
-    <link rel="stylesheet" href="../../frontend/static/css/fonts.css">
+    <link rel="icon" href="../../frontend/static/img/logo.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../../frontend/static/dist/fonts.min.css?v=1792178519">
     <link rel="stylesheet" href="../theme.css">
-    <link rel="stylesheet" href="../../frontend/static/css/style.css">
+    <link rel="stylesheet" href="../../frontend/static/dist/style.min.css?v=1792178519">
     <link rel="stylesheet" href="mobile.css">
 </head>
 <body class="theme-conference">
@@ -41,18 +42,18 @@
     <form id="request-form" novalidate>
         <div class="field">
             <label for="event_name">Название</label>
-            <input id="event_name" name="event_name" type="text" maxlength="200" placeholder="Например, Встреча студенческого клуба">
+            <input id="event_name" name="event_name" type="text" maxlength="200" placeholder="Например, Встреча студенческого клуба" value="">
             <small class="error" data-error-for="event_name"></small>
         </div>
         <div class="row">
             <div class="field">
                 <label for="date">Дата</label>
-                <input id="date" name="date" type="date">
+                <input id="date" name="date" type="date" value="">
                 <small class="error" data-error-for="date"></small>
             </div>
             <div class="field">
                 <label for="start_time">Время начала</label>
-                <input id="start_time" name="start_time" type="time">
+                <input id="start_time" name="start_time" type="time" value="">
                 <small class="error" data-error-for="start_time"></small>
             </div>
         </div>
@@ -61,7 +62,7 @@
                 <label for="room_id">Помещение</label>
                 <select id="room_id" name="room_id">
                     <option value="">Выберите из списка</option>
-                    <option value="1">Аудитория</option><option value="2">Коворкинг</option><option value="3">Кинозал</option>
+                    <option value="1" >Аудитория</option><option value="2" >Коворкинг</option><option value="3" >Кинозал</option>
                 </select>
                 <small class="error" data-error-for="room_id"></small>
             </div>
@@ -69,7 +70,7 @@
                 <label for="payment_method_id">Способ оплаты</label>
                 <select id="payment_method_id" name="payment_method_id">
                     <option value="">Выберите из списка</option>
-                    <option value="1">При очном посещении</option><option value="2">СБП</option>
+                    <option value="1" >При очном посещении</option><option value="2" >СБП</option>
                 </select>
                 <small class="error" data-error-for="payment_method_id"></small>
             </div>

@@ -5,7 +5,7 @@
       {
         "page": "/dashboard",
         "overflow_px": 0,
-        "console_errors": 1,
+        "console_errors": 0,
         "title": "Мои заявки, Конференции.РФ"
       },
       {
@@ -28,7 +28,7 @@
       {
         "page": "/dashboard",
         "overflow_px": 0,
-        "console_errors": 1,
+        "console_errors": 0,
         "title": "Мои заявки, Конференции.РФ"
       },
       {

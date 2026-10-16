@@ -38,7 +38,7 @@ THEMES = {
         "assign_button": "Назначить тренировку",
         "statuses": {2: "Тренировка назначена"},
         "hero_image": "hero_sport",
-        "hero_alt": "Футбольное поле и табло",
+        "hero_alt": "Стадион",
         "accent": "#2b8a3e",
         "primary": "#0b3d2e",
         "bg": "#f1f6f2",
