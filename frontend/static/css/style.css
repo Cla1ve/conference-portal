@@ -236,4 +236,4 @@ label { transition: color 0.2s; }
 .btn-danger:hover { background: rgba(201, 42, 42, 0.08); }
 
 /* список в админке приходит запросом после загрузки страницы, резервируем место, чтобы подвал не прыгал */
-#admin-cards { min-height: 70vh; }
+#admin-cards { min-height: 70vh; align-content: start; }
