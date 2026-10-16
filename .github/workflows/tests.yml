@@ -1,0 +1,38 @@
+name: Tests
+
+# запускаем тесты при каждом коммите и при pull request
+on:
+  push:
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Забираем код
+        uses: actions/checkout@v4
+
+      - name: Ставим Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Ставим зависимости
+        run: pip install -r autotests/requirements.txt
+
+      - name: Модульные тесты (unittest)
+        run: python -m unittest discover -s tests -t .
+
+      - name: Смоук-тесты и тесты формы входа (Selenium, Chrome в headless режиме)
+        run: python -m pytest autotests -c autotests/pytest.ini --rootdir . --html=autotests/report.html --self-contained-html
+
+      - name: Сохраняем отчёт и скриншоты
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autotests-report
+          path: |
+            autotests/report.html
+            autotests/screenshots/
+          if-no-files-found: ignore

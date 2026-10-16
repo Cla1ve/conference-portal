@@ -6,3 +6,5 @@ database/*.db
 database/.secret
 *.log
 .pytest_cache/
+autotests/screenshots/*.png
+autotests/report.html

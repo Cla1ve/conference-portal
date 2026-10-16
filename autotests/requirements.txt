@@ -1,0 +1,4 @@
+-r ../requirements.txt
+selenium>=4.20
+pytest>=8.0
+pytest-html>=4.1
