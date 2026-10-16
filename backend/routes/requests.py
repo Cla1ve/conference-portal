@@ -1,0 +1,45 @@
+from flask import Blueprint, render_template, request, jsonify, g
+
+from backend.models import Request, Review, dictionaries
+from backend.security import login_required
+
+requests_bp = Blueprint("requests", __name__)
+
+
+@requests_bp.get("/dashboard")
+@login_required("user")
+def dashboard():
+    return render_template("dashboard.html", requests=Request.for_user(g.user["id"]))
+
+
+@requests_bp.get("/request/new")
+@login_required("user")
+def new_request_page():
+    return render_template("request_new.html", **dictionaries())
+
+
+@requests_bp.post("/api/requests")
+@login_required("user")
+def create_request():
+    data = request.get_json(silent=True) or {}
+    data["user_id"] = g.user["id"]
+    req = Request(data)
+    errors = req.validate()
+    if errors:
+        return jsonify(success=False, message="Проверьте поля формы", errors=errors), 400
+    req_id = req.save()
+    return jsonify(success=True, id=req_id, redirect="/dashboard"), 201
+
+
+@requests_bp.post("/api/requests/<int:request_id>/review")
+@login_required("user")
+def add_review(request_id):
+    data = request.get_json(silent=True) or {}
+    data["request_id"] = request_id
+    data["login"] = g.user["login"]
+    review = Review(data)
+    errors = review.validate()
+    if errors:
+        return jsonify(success=False, message=next(iter(errors.values())), errors=errors), 400
+    review.save()
+    return jsonify(success=True, message="Спасибо за отзыв!"), 201

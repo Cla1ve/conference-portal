@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Новая заявка, {{ theme.brand }}{% endblock %}
+{% block content %}
+<div class="form-card form-card-wide">
+    <h1>Новая заявка</h1>
+    <p class="muted">Заполните данные, после проверки администратор назначит {{ theme.event_word }}.</p>
+    <form id="request-form" novalidate>
+        <div class="field">
+            <label for="event_name">Название</label>
+            <input id="event_name" name="event_name" type="text" maxlength="200" placeholder="Например, Встреча студенческого клуба">
+            <small class="error" data-error-for="event_name"></small>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label for="date">Дата</label>
+                <input id="date" name="date" type="date">
+                <small class="error" data-error-for="date"></small>
+            </div>
+            <div class="field">
+                <label for="start_time">Время начала</label>
+                <input id="start_time" name="start_time" type="time">
+                <small class="error" data-error-for="start_time"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label for="room_id">Помещение</label>
+                <select id="room_id" name="room_id">
+                    <option value="">Выберите из списка</option>
+                    {% for room in rooms %}<option value="{{ room.id }}">{{ room.name }}</option>{% endfor %}
+                </select>
+                <small class="error" data-error-for="room_id"></small>
+            </div>
+            <div class="field">
+                <label for="payment_method_id">Способ оплаты</label>
+                <select id="payment_method_id" name="payment_method_id">
+                    <option value="">Выберите из списка</option>
+                    {% for p in payments %}<option value="{{ p.id }}">{{ p.name }}</option>{% endfor %}
+                </select>
+                <small class="error" data-error-for="payment_method_id"></small>
+            </div>
+        </div>
+        <div class="field">
+            <label for="description">Описание (необязательно)</label>
+            <textarea id="description" name="description" rows="3" maxlength="1000"></textarea>
+            <small class="error" data-error-for="description"></small>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <button class="btn" type="submit">Отправить заявку</button>
+    </form>
+</div>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/request.js') }}"></script>{% endblock %}

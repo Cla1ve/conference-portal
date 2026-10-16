@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Администратор, {{ theme.brand }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>Все заявки</h1>
+    <span class="muted" id="counter"></span>
+</div>
+
+<form class="filters" id="filters">
+    <select name="status" aria-label="Статус">
+        <option value="">Все статусы</option>
+        {% for s in statuses %}<option value="{{ s.id }}">{{ s.name }}</option>{% endfor %}
+    </select>
+    <select name="room" aria-label="Помещение">
+        <option value="">Все помещения</option>
+        {% for r in rooms %}<option value="{{ r.id }}">{{ r.name }}</option>{% endfor %}
+    </select>
+    <input type="date" name="date" aria-label="Дата">
+    <input type="search" name="q" placeholder="Название или ФИО" aria-label="Поиск">
+    <button type="reset" class="btn btn-ghost btn-small" id="reset-btn">Сбросить</button>
+</form>
+
+<div class="cards" id="admin-cards" aria-live="polite"></div>
+<p class="muted center" id="empty-msg" hidden>Заявок по такому фильтру нет.</p>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/admin.js') }}"></script>{% endblock %}
