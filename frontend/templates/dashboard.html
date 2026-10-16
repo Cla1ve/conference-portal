@@ -43,6 +43,12 @@
         {% else %}
             <p class="muted small">Отзыв можно оставить после завершения мероприятия.</p>
         {% endif %}
+        {% if r.status_id == 1 %}
+            <div class="card-actions">
+                <a class="btn btn-small btn-ghost" href="/request/{{ r.id }}/edit">Изменить</a>
+                <button class="btn btn-small btn-danger cancel-btn" type="button" data-id="{{ r.id }}">Отменить заявку</button>
+            </div>
+        {% endif %}
     </article>
     {% endfor %}
 </div>

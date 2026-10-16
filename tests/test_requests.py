@@ -87,6 +87,49 @@ class RequestTests(unittest.TestCase):
         conn.close()
         self.assertEqual(n, 3)   # создана, назначена, завершена
 
+    def test_user_can_edit_new_request(self):
+        post_json(self.client, "/api/requests", new_request(name="Старое название"), self.token)
+        data = new_request(name="Новое название")
+        data["room_id"] = 2
+        r = self.client.put("/api/requests/1", json=data, headers={"X-CSRF-Token": self.token})
+        self.assertEqual(r.status_code, 200)
+        page = self.client.get("/dashboard").get_data(as_text=True)
+        self.assertIn("Новое название", page)
+        self.assertNotIn("Старое название", page)
+
+    def test_cannot_edit_after_status_changed(self):
+        post_json(self.client, "/api/requests", new_request(), self.token)
+        post_json(self.admin, "/api/admin/requests/1/status", {"status_id": 2}, self.admin_token)
+        r = self.client.put("/api/requests/1", json=new_request(), headers={"X-CSRF-Token": self.token})
+        self.assertEqual(r.status_code, 400)
+        r = self.client.delete("/api/requests/1", headers={"X-CSRF-Token": self.token})
+        self.assertEqual(r.status_code, 400)
+
+    def test_user_cancels_own_new_request(self):
+        post_json(self.client, "/api/requests", new_request(), self.token)
+        r = self.client.delete("/api/requests/1", headers={"X-CSRF-Token": self.token})
+        self.assertEqual(r.status_code, 200)
+        self.assertIn("У вас пока нет заявок", self.client.get("/dashboard").get_data(as_text=True))
+
+    def test_cannot_cancel_foreign_request(self):
+        post_json(self.client, "/api/requests", new_request(), self.token)
+        other = self.app.test_client()
+        o_token, _ = register_and_login(other, dict(USER, login="student03", email="third@example.ru"))
+        r = other.delete("/api/requests/1", headers={"X-CSRF-Token": o_token})
+        self.assertEqual(r.status_code, 404)
+
+    def test_admin_delete_removes_everything(self):
+        import sqlite3
+        post_json(self.client, "/api/requests", new_request(), self.token)
+        self.complete(1)
+        post_json(self.client, "/api/requests/1/review", {"text": "Хорошо", "rating": 5}, self.token)
+        r = self.admin.delete("/api/admin/requests/1", headers={"X-CSRF-Token": self.admin_token})
+        self.assertEqual(r.status_code, 200)
+        conn = sqlite3.connect(self.db)
+        counts = [conn.execute("SELECT COUNT(*) FROM " + t).fetchone()[0] for t in ("request", "review", "event", "status_history")]
+        conn.close()
+        self.assertEqual(counts, [0, 0, 0, 0])
+
 
 if __name__ == "__main__":
     unittest.main()

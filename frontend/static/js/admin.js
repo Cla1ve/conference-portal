@@ -38,14 +38,18 @@ function renderCard(item) {
         card.appendChild(review);
     }
 
+    const actions = el('div', 'card-actions');
     if (NEXT_STATUS[item.status_id]) {
-        const actions = el('div', 'card-actions');
         const btn = el('button', 'btn btn-small', NEXT_STATUS[item.status_id]);
         btn.type = 'button';
         btn.addEventListener('click', function () { changeStatus(item, btn); });
         actions.appendChild(btn);
-        card.appendChild(actions);
     }
+    const del = el('button', 'btn btn-small btn-danger', 'Удалить');
+    del.type = 'button';
+    del.addEventListener('click', function () { deleteRequest(item, del); });
+    actions.appendChild(del);
+    card.appendChild(actions);
     return card;
 }
 
@@ -54,6 +58,19 @@ async function changeStatus(item, button) {
         const res = await api('/api/admin/requests/' + item.id + '/status', 'POST', { status_id: item.status_id + 1 });
         if (res.success) {
             toast('Статус заявки № ' + item.id + ' изменён', 'ok');
+            loadRequests();
+        } else {
+            toast(res.message, 'error');
+        }
+    });
+}
+
+async function deleteRequest(item, button) {
+    if (!confirm('Удалить заявку № ' + item.id + ' вместе с отзывом? Это действие нельзя вернуть.')) return;
+    await withBusy(button, async function () {
+        const res = await api('/api/admin/requests/' + item.id, 'DELETE');
+        if (res.success) {
+            toast('Заявка № ' + item.id + ' удалена', 'ok');
             loadRequests();
         } else {
             toast(res.message, 'error');

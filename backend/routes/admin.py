@@ -44,3 +44,12 @@ def change_status(request_id):
         return jsonify(success=False, message="Нельзя изменить статус на выбранный"), 400
     Request.set_status(request_id, new_status, g.user["id"])
     return jsonify(success=True, item=Request.find(request_id))
+
+
+@admin_bp.delete("/api/admin/requests/<int:request_id>")
+@login_required("admin")
+def delete_request(request_id):
+    if not Request.find(request_id):
+        return jsonify(success=False, message="Заявка не найдена"), 404
+    Request.delete(request_id)
+    return jsonify(success=True)

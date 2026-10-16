@@ -1,6 +1,22 @@
 // Отзывы в личном кабинете
 
 document.addEventListener('DOMContentLoaded', function () {
+    // отмена своей новой заявки с подтверждением
+    document.querySelectorAll('.cancel-btn').forEach(function (btn) {
+        btn.addEventListener('click', async function () {
+            if (!confirm('Отменить заявку № ' + btn.dataset.id + '? Это действие нельзя вернуть.')) return;
+            await withBusy(btn, async function () {
+                const res = await api('/api/requests/' + btn.dataset.id, 'DELETE');
+                if (res.success) {
+                    toast('Заявка отменена', 'ok');
+                    setTimeout(function () { location.reload(); }, 700);
+                } else {
+                    toast(res.message, 'error');
+                }
+            });
+        });
+    });
+
     document.querySelectorAll('.review-form').forEach(function (form) {
         form.addEventListener('submit', async function (event) {
             event.preventDefault();

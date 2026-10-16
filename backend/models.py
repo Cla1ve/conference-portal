@@ -65,6 +65,7 @@ class User(BaseModel):
 REQUEST_SELECT = """
     SELECT r.id, r.created_at, u.fio, u.login,
            e.name AS event_name, e.date, e.start_time, e.description,
+           e.room_id, r.payment_method_id,
            rm.name AS room, pm.name AS payment, s.id AS status_id, s.name AS status,
            rv.id AS review_id, rv.text AS review_text, rv.rating AS review_rating
     FROM request r
@@ -112,6 +113,32 @@ class Request(BaseModel):
                 (request_id, d["user_id"]),
             )
         return request_id
+
+    @staticmethod
+    def update(request_id, data):
+        """Изменение заявки (пока она новая): обновляем мероприятие и способ оплаты."""
+        db = get_db()
+        with db.connect() as conn:
+            row = conn.execute("SELECT event_id FROM request WHERE id = ?", (request_id,)).fetchone()
+            conn.execute(
+                "UPDATE event SET name = ?, date = ?, start_time = ?, room_id = ?, description = ? WHERE id = ?",
+                (data["event_name"].strip(), data["date"], data["start_time"], data["room_id"],
+                 (data.get("description") or "").strip(), row["event_id"]),
+            )
+            conn.execute("UPDATE request SET payment_method_id = ? WHERE id = ?", (data["payment_method_id"], request_id))
+
+    @staticmethod
+    def delete(request_id):
+        """Удаляет заявку вместе с отзывом и мероприятием, на которое больше никто не ссылается."""
+        db = get_db()
+        with db.connect() as conn:
+            row = conn.execute("SELECT event_id FROM request WHERE id = ?", (request_id,)).fetchone()
+            conn.execute("DELETE FROM review WHERE request_id = ?", (request_id,))
+            conn.execute("DELETE FROM request WHERE id = ?", (request_id,))   # журнал статусов удалится каскадом
+            conn.execute(
+                "DELETE FROM event WHERE id = ? AND NOT EXISTS (SELECT 1 FROM request WHERE event_id = ?)",
+                (row["event_id"], row["event_id"]),
+            )
 
     @staticmethod
     def for_user(user_id):

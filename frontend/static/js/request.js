@@ -37,9 +37,10 @@ document.addEventListener('DOMContentLoaded', function () {
         await withBusy(button, async function () {
             data.room_id = Number(data.room_id);
             data.payment_method_id = Number(data.payment_method_id);
-            const res = await api('/api/requests', 'POST', data);
+            const editId = form.dataset.edit;
+            const res = editId ? await api('/api/requests/' + editId, 'PUT', data) : await api('/api/requests', 'POST', data);
             if (res.success) {
-                toast('Заявка отправлена', 'ok');
+                toast(editId ? 'Изменения сохранены' : 'Заявка отправлена', 'ok');
                 setTimeout(function () { location.href = res.redirect; }, 900);
             } else {
                 showErrors(form, res.errors);

@@ -24,6 +24,50 @@ def new_request_page():
     return render_template("request_new.html", **dictionaries())
 
 
+@requests_bp.get("/request/<int:request_id>/edit")
+@login_required("user")
+def edit_request_page(request_id):
+    item = Request.find(request_id)
+    if not item or item["login"] != g.user["login"] or item["status_id"] != 1:
+        return render_template("error.html", code=404, text="Заявку нельзя изменить"), 404
+    return render_template("request_new.html", edit=item, **dictionaries())
+
+
+def own_new_request(request_id):
+    """Заявка пользователя, которую ещё можно менять или отменять (статус Новая)."""
+    item = Request.find(request_id)
+    if not item or item["login"] != g.user["login"]:
+        return None, (jsonify(success=False, message="Заявка не найдена"), 404)
+    if item["status_id"] != 1:
+        return None, (jsonify(success=False, message="Заявка уже обработана, изменить её нельзя"), 400)
+    return item, None
+
+
+@requests_bp.put("/api/requests/<int:request_id>")
+@login_required("user")
+def update_request(request_id):
+    item, error = own_new_request(request_id)
+    if error:
+        return error
+    data = request.get_json(silent=True) or {}
+    req = Request(data)
+    errors = req.validate()
+    if errors:
+        return jsonify(success=False, message="Проверьте поля формы", errors=errors), 400
+    Request.update(request_id, data)
+    return jsonify(success=True, redirect="/dashboard")
+
+
+@requests_bp.delete("/api/requests/<int:request_id>")
+@login_required("user")
+def cancel_request(request_id):
+    item, error = own_new_request(request_id)
+    if error:
+        return error
+    Request.delete(request_id)
+    return jsonify(success=True)
+
+
 @requests_bp.post("/api/requests")
 @login_required("user")
 def create_request():
