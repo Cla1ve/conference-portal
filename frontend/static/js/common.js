@@ -124,3 +124,20 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(function () { location.href = link.getAttribute('href'); }, 160);
     });
 });
+
+// цифры в блоке статистики плавно набираются от нуля
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('.stat-num').forEach(function (num) {
+        const target = parseInt(num.textContent, 10);
+        if (!target) return;
+        const start = performance.now();
+        const duration = 700;
+        function step(now) {
+            const k = Math.min((now - start) / duration, 1);
+            num.textContent = Math.round(target * k);
+            if (k < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+    });
+});

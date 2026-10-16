@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const res = await api('/api/requests/' + btn.dataset.id, 'DELETE');
                 if (res.success) {
                     toast('Заявка отменена', 'ok');
+                    btn.closest('.card').classList.add('removing');
                     setTimeout(function () { location.reload(); }, 700);
                 } else {
                     toast(res.message, 'error');

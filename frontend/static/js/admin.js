@@ -18,6 +18,7 @@ function row(dl, name, value) {
 
 function renderCard(item) {
     const card = el('article', 'card');
+    card.dataset.id = item.id;
     const top = el('div', 'card-top');
     top.appendChild(el('span', 'status status-' + item.status_id, item.status));
     top.appendChild(el('span', 'muted', '№ ' + item.id));
@@ -58,7 +59,7 @@ async function changeStatus(item, button) {
         const res = await api('/api/admin/requests/' + item.id + '/status', 'POST', { status_id: item.status_id + 1 });
         if (res.success) {
             toast('Статус заявки № ' + item.id + ' изменён', 'ok');
-            loadRequests();
+            loadRequests(item.id);
         } else {
             toast(res.message, 'error');
         }
@@ -71,6 +72,9 @@ async function deleteRequest(item, button) {
         const res = await api('/api/admin/requests/' + item.id, 'DELETE');
         if (res.success) {
             toast('Заявка № ' + item.id + ' удалена', 'ok');
+            // карточка плавно исчезает, потом список обновляется
+            button.closest('.card').classList.add('removing');
+            await new Promise(function (resolve) { setTimeout(resolve, 260); });
             loadRequests();
         } else {
             toast(res.message, 'error');
@@ -78,7 +82,7 @@ async function deleteRequest(item, button) {
     });
 }
 
-async function loadRequests() {
+async function loadRequests(highlightId) {
     const form = document.getElementById('filters');
     const params = new URLSearchParams(new FormData(form));
     // пустые параметры не отправляем
@@ -91,7 +95,13 @@ async function loadRequests() {
         toast(res.message || 'Не удалось загрузить заявки', 'error');
         return;
     }
-    res.items.forEach(function (item) { box.appendChild(renderCard(item)); });
+    res.items.forEach(function (item) {
+        const card = renderCard(item);
+        // карточку, у которой только что сменился статус, подсвечиваем
+        if (highlightId && item.id === highlightId) card.classList.add('flash');
+        box.appendChild(card);
+    });
+    setTimeout(function () { box.classList.add('loaded'); }, 700);
     document.getElementById('empty-msg').hidden = res.items.length > 0;
     document.getElementById('counter').textContent = 'Найдено: ' + res.items.length;
 }
@@ -99,12 +109,12 @@ async function loadRequests() {
 document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('filters');
     let timer = null;
-    form.addEventListener('change', loadRequests);
+    form.addEventListener('change', function () { loadRequests(); });
     // в поиске ждём паузу в наборе, чтобы не слать запрос на каждую букву
     form.elements.q.addEventListener('input', function () {
         clearTimeout(timer);
-        timer = setTimeout(loadRequests, 300);
+        timer = setTimeout(function () { loadRequests(); }, 300);
     });
-    form.addEventListener('reset', function () { setTimeout(loadRequests, 0); });
+    form.addEventListener('reset', function () { setTimeout(function () { loadRequests(); }, 0); });
     loadRequests();
 });
