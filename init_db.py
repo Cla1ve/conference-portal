@@ -44,6 +44,8 @@ def seed_dictionaries(db_path, theme_name):
         conn.execute("INSERT OR IGNORE INTO room (name) VALUES (?)", (name,))
     for name in theme["payments"]:
         conn.execute("INSERT OR IGNORE INTO payment_method (name) VALUES (?)", (name,))
+    for status_id, name in theme.get("statuses", {}).items():
+        conn.execute("UPDATE status SET name = ? WHERE id = ?", (name, status_id))
     exists = conn.execute("SELECT 1 FROM user WHERE login = 'Conf2027'").fetchone()
     if not exists:
         conn.execute(

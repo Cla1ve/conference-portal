@@ -25,11 +25,16 @@ os.environ["SECRET_KEY"] = "autotest-secret"
 
 sys.path.insert(0, str(ROOT))
 import init_db  # noqa: E402
+from backend.themes import THEMES  # noqa: E402
 from backend.models import User  # noqa: E402
 
 DEMO_USER = {"login": "autotest_user", "password": "Password123", "fio": "Тестов Тест Тестович",
              "phone": "8(900)-100-20-30", "email": "autotest@example.ru"}
 ADMIN = {"login": "Conf2027", "password": "Demo77"}
+
+# какая тематика проверяется: THEME=sport python -m pytest autotests ...
+THEME_NAME = os.environ.get("THEME", "conference")
+THEME = THEMES[THEME_NAME]
 
 
 def pytest_configure(config):
@@ -40,7 +45,7 @@ def pytest_configure(config):
 def live_server():
     """Поднимает сайт на отдельном порту и ждёт, пока он ответит."""
     init_db.run_migrations(DB_FILE, quiet=True)
-    init_db.seed_dictionaries(DB_FILE, "conference")
+    init_db.seed_dictionaries(DB_FILE, THEME_NAME)
     User(dict(DEMO_USER)).save()
     env = dict(os.environ, PORT=str(PORT))
     proc = subprocess.Popen([sys.executable, "app.py"], cwd=str(ROOT), env=env,

@@ -36,7 +36,7 @@ def theme_css():
     from flask import current_app, Response
     from backend.themes import THEMES
     theme = THEMES.get(current_app.config["THEME"], THEMES["conference"])
-    css = ":root {\n  --primary: %s;\n  --accent: %s;\n}\n" % (theme["primary"], theme["accent"])
+    css = ":root {\n  --primary: %s;\n  --accent: %s;\n  --bg: %s;\n}\n" % (theme["primary"], theme["accent"], theme["bg"])
     return Response(css, mimetype="text/css")
 
 

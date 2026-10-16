@@ -41,7 +41,7 @@
                 <button class="btn btn-small" type="submit">Отправить отзыв</button>
             </form>
         {% else %}
-            <p class="muted small">Отзыв можно оставить после завершения мероприятия.</p>
+            <p class="muted small">Отзыв можно оставить после завершения {{ theme.event_of }}.</p>
         {% endif %}
         {% if r.status_id == 1 %}
             <div class="card-actions">

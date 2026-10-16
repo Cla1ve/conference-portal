@@ -1,6 +1,7 @@
 // Панель администратора: карточки заявок, фильтры, смена статуса
 
-const NEXT_STATUS = { 1: 'Назначить мероприятие', 2: 'Завершить' };
+// текст кнопки первого шага зависит от тематики, берём его из страницы
+const NEXT_STATUS = { 1: document.getElementById('admin-cards').dataset.assign, 2: 'Завершить' };
 
 function el(tag, className, text) {
     const node = document.createElement(tag);

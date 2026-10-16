@@ -3,7 +3,7 @@ import time
 
 from selenium.webdriver.common.by import By
 
-from autotests.conftest import DEMO_USER, ADMIN
+from autotests.conftest import DEMO_USER, ADMIN, THEME
 from autotests.pages.pages import LoginPage, RegisterPage, DashboardPage, RequestPage, AdminPage
 
 
@@ -14,8 +14,8 @@ def unique(prefix):
 def test_smoke_main_page_opens(driver, live_server):
     driver.get(live_server + "/")
     page = LoginPage(driver, live_server)
-    assert "Конференции.РФ" in driver.title
-    assert page.text_of((By.TAG_NAME, "h1")) == "Проведите своё мероприятие у нас"
+    assert THEME["brand"] in driver.title
+    assert page.text_of((By.TAG_NAME, "h1")) == THEME["hero_title"]
     page.visible((By.LINK_TEXT, "Вход"))
     page.visible((By.LINK_TEXT, "Регистрация"))
 
@@ -42,7 +42,7 @@ def test_smoke_user_creates_request_and_sees_it(driver, live_server):
     title = unique("Автотест встреча")
     LoginPage(driver, live_server).open().login_and_wait(DEMO_USER["login"], DEMO_USER["password"])
     request_page = RequestPage(driver, live_server).open()
-    request_page.fill(title, "2030-05-20", "12:00", "Коворкинг", "СБП")
+    request_page.fill(title, "2030-05-20", "12:00", THEME["rooms"][1], THEME["payments"][1])
     request_page.submit()
     assert title in DashboardPage(driver, live_server).card_titles()
 
@@ -51,12 +51,12 @@ def test_smoke_admin_assigns_event(driver, live_server):
     title = unique("Автотест для админа")
     LoginPage(driver, live_server).open().login_and_wait(DEMO_USER["login"], DEMO_USER["password"])
     request_page = RequestPage(driver, live_server).open()
-    request_page.fill(title, "2030-06-10", "10:00", "Аудитория", "При очном посещении")
+    request_page.fill(title, "2030-06-10", "10:00", THEME["rooms"][0], THEME["payments"][0])
     request_page.submit()
     DashboardPage(driver, live_server).logout()
 
     LoginPage(driver, live_server).open().login_and_wait(ADMIN["login"], ADMIN["password"], "/admin")
     admin = AdminPage(driver, live_server)
     assert admin.status_of(title) == "Новая"
-    admin.press_in_card(title, "Назначить мероприятие")
-    admin.wait.until(lambda d: admin.status_of(title) == "Мероприятие назначено")
+    admin.press_in_card(title, THEME["assign_button"])
+    admin.wait.until(lambda d: admin.status_of(title) == THEME["statuses"][2])

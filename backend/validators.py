@@ -44,7 +44,7 @@ def check_email(email):
 def check_event_name(name):
     name = (name or "").strip()
     if len(name) < 3 or len(name) > 200:
-        return "Название мероприятия: от 3 до 200 символов"
+        return "Название: от 3 до 200 символов"
     return None
 
 

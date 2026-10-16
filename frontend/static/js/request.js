@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', function () {
     form.elements.date.min = today;
 
     liveValidate(form, function (name, value) {
-        if (name === 'event_name' && value.length < 3) return 'Название мероприятия: от 3 до 200 символов';
+        if (name === 'event_name' && value.length < 3) return 'Название: от 3 до 200 символов';
         if (name === 'date' && !value) return 'Укажите дату';
         if (name === 'date' && value < today) return 'Дата не может быть в прошлом';
         if (name === 'start_time' && !value) return 'Укажите время начала';
@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const data = formData(form);
         const errors = {};
 
-        if (data.event_name.length < 3) errors.event_name = 'Название мероприятия: от 3 до 200 символов';
+        if (data.event_name.length < 3) errors.event_name = 'Название: от 3 до 200 символов';
         if (!data.date) errors.date = 'Укажите дату';
         else if (data.date < today) errors.date = 'Дата не может быть в прошлом';
         if (!data.start_time) errors.start_time = 'Укажите время начала';

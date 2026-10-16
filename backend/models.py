@@ -199,7 +199,7 @@ class Review(BaseModel):
         if not req or req["login"] != d.get("login"):
             errors["request"] = "Заявка не найдена"
         elif req["status_id"] != 3:
-            errors["request"] = "Отзыв можно оставить только после завершения мероприятия"
+            errors["request"] = "Отзыв можно оставить только после завершения"
         elif req["review_id"]:
             errors["request"] = "Вы уже оставили отзыв на эту заявку"
         return errors

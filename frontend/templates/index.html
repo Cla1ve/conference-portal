@@ -14,8 +14,8 @@
         {% endif %}
     </div>
     <picture class="hero-img">
-        <source srcset="{{ url_for('static', filename='img/hero.webp') }}" type="image/webp">
-        <img src="{{ url_for('static', filename='img/hero.jpg') }}" alt="Зал для мероприятий" width="560" height="360" loading="eager">
+        <source srcset="{{ url_for('static', filename='img/' + theme.hero_image + '.webp') }}" type="image/webp">
+        <img src="{{ url_for('static', filename='img/' + theme.hero_image + '.jpg') }}" alt="{{ theme.hero_alt }}" width="560" height="360" loading="eager">
     </picture>
 </section>
 
@@ -33,7 +33,7 @@
         {% endfor %}
     </div>
     {% else %}
-        <p class="muted">Пока нет подтверждённых мероприятий.</p>
+        <p class="muted">{{ theme.events_empty }}</p>
     {% endif %}
 </section>
 {% endblock %}

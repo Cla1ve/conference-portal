@@ -1,7 +1,6 @@
-/* Основные стили портала. Цвета primary и accent приходят из /theme.css */
+/* Основные стили портала. Цвета primary, accent и фон (bg) приходят из /theme.css */
 
 :root {
-    --bg: #f4f6f9;
     --card: #ffffff;
     --text: #1f2937;
     --muted: #6b7280;

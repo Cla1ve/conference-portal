@@ -20,7 +20,7 @@
     <button type="reset" class="btn btn-ghost btn-small" id="reset-btn">Сбросить</button>
 </form>
 
-<div class="cards" id="admin-cards" aria-live="polite"></div>
+<div class="cards" id="admin-cards" data-assign="{{ theme.assign_button }}" aria-live="polite"></div>
 <p class="muted center" id="empty-msg" hidden>Заявок по такому фильтру нет.</p>
 {% endblock %}
 {% block scripts %}<script src="{{ asset('js/admin.js') }}"></script>{% endblock %}
