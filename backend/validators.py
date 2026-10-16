@@ -15,8 +15,11 @@ def check_login(login):
 
 
 def check_password(password):
-    if len(password or "") < 8:
+    password = password or ""
+    if len(password) < 8:
         return "Пароль должен быть не короче 8 символов"
+    if not password.strip():
+        return "Пароль не может состоять из одних пробелов"
     return None
 
 
@@ -58,6 +61,17 @@ def check_date(value):
 def check_time(value):
     if not TIME_RE.match(value or ""):
         return "Время в формате ЧЧ:ММ"
+    return None
+
+
+def check_not_past(date_value, time_value):
+    """Заявка на сегодня принимается только на время, которое ещё не наступило."""
+    try:
+        moment = datetime.strptime(f"{date_value} {time_value}", "%Y-%m-%d %H:%M")
+    except ValueError:
+        return None   # неверный формат уже поймали отдельными проверками
+    if moment < datetime.now():
+        return "Это время уже прошло, выберите более позднее"
     return None
 
 

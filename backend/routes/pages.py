@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, g, redirect
+from flask import Blueprint, render_template, g, redirect, current_app, url_for
 
 from backend.db import get_db
+from backend.themes import THEMES
 
 pages_bp = Blueprint("pages", __name__)
 
@@ -20,6 +21,13 @@ def index():
         """
     )
     return render_template("index.html", events=events)
+
+
+@pages_bp.get("/favicon.ico")
+def favicon():
+    """Некоторые браузеры всё равно просят /favicon.ico, отправляем их к значку темы."""
+    theme = THEMES.get(current_app.config["THEME"], THEMES["conference"])
+    return redirect(url_for("static", filename="img/" + theme["logo"]), code=302)
 
 
 @pages_bp.get("/theme.css")

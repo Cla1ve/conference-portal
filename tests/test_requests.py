@@ -1,5 +1,5 @@
 import unittest
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta
 
 from tests.helpers import make_app, post_json, register_and_login, login_admin, USER
 
@@ -31,6 +31,26 @@ class RequestTests(unittest.TestCase):
         r = post_json(self.client, "/api/requests", new_request(PAST), self.token)
         self.assertEqual(r.status_code, 400)
         self.assertIn("date", r.get_json()["errors"])
+
+    def test_today_with_past_time_rejected(self):
+        """BR-003: на сегодня можно подать заявку только на время, которое ещё не прошло."""
+        past = datetime.now() - timedelta(minutes=5)
+        if past.date() != date.today():
+            self.skipTest("полночь, нечем проверить")
+        data = new_request(date.today().isoformat())
+        data["start_time"] = past.strftime("%H:%M")
+        r = post_json(self.client, "/api/requests", data, self.token)
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("start_time", r.get_json()["errors"])
+
+    def test_today_with_later_time_ok(self):
+        later = datetime.now() + timedelta(minutes=30)
+        if later.date() != date.today():
+            self.skipTest("полночь, нечем проверить")
+        data = new_request(date.today().isoformat())
+        data["start_time"] = later.strftime("%H:%M")
+        r = post_json(self.client, "/api/requests", data, self.token)
+        self.assertEqual(r.status_code, 201)
 
     def test_room_must_be_from_list(self):
         data = new_request()

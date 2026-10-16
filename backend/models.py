@@ -87,6 +87,10 @@ class Request(BaseModel):
             "date": v.check_date(d.get("date")),
             "start_time": v.check_time(d.get("start_time")),
         })
+        if "date" not in errors and "start_time" not in errors:
+            error = v.check_not_past(d.get("date"), d.get("start_time"))
+            if error:
+                errors["start_time"] = error
         if not self.db.one("SELECT id FROM room WHERE id = ?", (d.get("room_id"),)):
             errors["room_id"] = "Выберите помещение из списка"
         if not self.db.one("SELECT id FROM payment_method WHERE id = ?", (d.get("payment_method_id"),)):

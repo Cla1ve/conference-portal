@@ -19,6 +19,20 @@ class SecurityTests(unittest.TestCase):
         self.assertNotEqual(stored, USER["password"])
         self.assertTrue(stored.startswith(("scrypt:", "pbkdf2:")))
 
+    def test_password_of_spaces_rejected(self):
+        """BR-002: проверка только в браузере не считается, сервер тоже должен отклонить такой пароль."""
+        token = get_token(self.client)
+        data = dict(USER, password=" " * 8)
+        r = post_json(self.client, "/api/register", data, token)
+        self.assertEqual(r.status_code, 400)
+        self.assertIn("password", r.get_json()["errors"])
+
+    def test_favicon_is_linked_and_served(self):
+        """BR-001: у страниц есть значок, и браузер не получает 404."""
+        html = self.client.get("/login").get_data(as_text=True)
+        self.assertIn('rel="icon"', html)
+        self.assertNotEqual(self.client.get("/favicon.ico").status_code, 404)
+
     def test_sql_injection_in_login(self):
         token = get_token(self.client)
         r = post_json(self.client, "/api/login", {"login": "' OR '1'='1' --", "password": "x"}, token)
