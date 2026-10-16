@@ -58,6 +58,27 @@ function clearErrors(form) {
     if (common) common.textContent = '';
 }
 
+// проверка одного поля, когда человек из него вышел (check вернёт текст ошибки или пустую строку)
+function liveValidate(form, check) {
+    form.querySelectorAll('input, select, textarea').forEach(function (field) {
+        field.addEventListener('blur', function () {
+            const message = check(field.name, field.value.trim(), formData(form));
+            const holder = form.querySelector('[data-error-for="' + field.name + '"]');
+            if (!holder) return;
+            holder.textContent = message || '';
+            field.closest('.field').classList.toggle('invalid', Boolean(message));
+        });
+        // как только поле исправили, ошибку убираем
+        field.addEventListener('input', function () {
+            const holder = form.querySelector('[data-error-for="' + field.name + '"]');
+            if (holder && holder.textContent && !check(field.name, field.value.trim(), formData(form))) {
+                holder.textContent = '';
+                field.closest('.field').classList.remove('invalid');
+            }
+        });
+    });
+}
+
 function formData(form) {
     const result = {};
     new FormData(form).forEach(function (value, key) { result[key] = value.trim ? value.trim() : value; });

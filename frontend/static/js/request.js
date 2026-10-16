@@ -5,6 +5,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const today = new Date().toISOString().slice(0, 10);
     form.elements.date.min = today;
 
+    liveValidate(form, function (name, value) {
+        if (name === 'event_name' && value.length < 3) return 'Название мероприятия: от 3 до 200 символов';
+        if (name === 'date' && !value) return 'Укажите дату';
+        if (name === 'date' && value < today) return 'Дата не может быть в прошлом';
+        if (name === 'start_time' && !value) return 'Укажите время начала';
+        if (name === 'room_id' && !value) return 'Выберите помещение из списка';
+        if (name === 'payment_method_id' && !value) return 'Выберите способ оплаты из списка';
+        return '';
+    });
+
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
         const data = formData(form);

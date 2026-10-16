@@ -38,7 +38,13 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
-    if (registerForm) maskPhone(registerForm.elements.phone);
+    if (registerForm) {
+        maskPhone(registerForm.elements.phone);
+        liveValidate(registerForm, function (name, value) {
+            const rule = RULES[name];
+            return rule && !rule[0].test(value) ? rule[1] : '';
+        });
+    }
 
     [loginForm, registerForm].forEach(function (form) {
         if (!form) return;
