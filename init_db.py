@@ -18,7 +18,7 @@ def applied_versions(conn):
     return {row[0] for row in conn.execute("SELECT version FROM schema_version")}
 
 
-def run_migrations(db_path, upto=None):
+def run_migrations(db_path, upto=None, quiet=False):
     Path(db_path).parent.mkdir(parents=True, exist_ok=True)
     conn = sqlite3.connect(db_path)
     conn.execute("PRAGMA foreign_keys = ON")
@@ -28,7 +28,8 @@ def run_migrations(db_path, upto=None):
         version = int(f.name.split("_")[0])
         if version in done or (upto and version > upto):
             continue
-        print("применяю миграцию", f.name)
+        if not quiet:
+            print("применяю миграцию", f.name)
         conn.executescript(f.read_text(encoding="utf-8"))
         conn.execute("INSERT INTO schema_version (version) VALUES (?)", (version,))
         conn.commit()
