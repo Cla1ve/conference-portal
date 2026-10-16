@@ -1,0 +1,4 @@
+/* макет для экрана 390x844: на компьютере показываем в рамке телефона */
+@media (min-width: 500px) {
+  body { max-width: 390px; margin: 0 auto; border-left: 1px solid #ccd; border-right: 1px solid #ccd; box-shadow: 0 0 30px rgba(0,0,0,.15); }
+}

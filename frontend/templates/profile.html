@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Личный кабинет, {{ theme.brand }}{% endblock %}
+{% block content %}
+<div class="page-head">
+    <h1>Личный кабинет</h1>
+    <a class="btn" href="/request/new">Новая заявка</a>
+</div>
+
+<div class="profile-grid">
+    <section class="card">
+        <h3>Мои данные</h3>
+        <dl class="meta">
+            <div><dt>ФИО</dt><dd>{{ profile.fio }}</dd></div>
+            <div><dt>Логин</dt><dd>{{ profile.login }}</dd></div>
+            <div><dt>Email</dt><dd>{{ profile.email }}</dd></div>
+            <div><dt>Телефон</dt><dd>{{ profile.phone }}</dd></div>
+        </dl>
+    </section>
+    <section class="card stats">
+        <h3>Моя активность</h3>
+        <div class="stat-row">
+            <div class="stat"><span class="stat-num">{{ profile.total }}</span><span class="muted">заявок</span></div>
+            <div class="stat"><span class="stat-num">{{ profile.done }}</span><span class="muted">завершено</span></div>
+            <div class="stat"><span class="stat-num">{{ profile.reviews }}</span><span class="muted">отзывов</span></div>
+        </div>
+        <a href="/dashboard">Перейти к моим заявкам</a>
+    </section>
+</div>
+{% endblock %}

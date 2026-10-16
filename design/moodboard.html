@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Мудборд Конференции.РФ</title>
+<link rel="stylesheet" href="../frontend/static/css/fonts.css">
+<link rel="stylesheet" href="theme.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 28px; background: #e9edf3; font-family: 'Open Sans', sans-serif; color: #1f2937; }
+  h1 { font: 700 30px 'Montserrat', sans-serif; color: #1b3a5c; margin: 0 0 4px; }
+  .sub { color: #6b7280; margin: 0 0 20px; }
+  .board { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 70px; gap: 14px; max-width: 1180px; }
+  .tile { border-radius: 14px; overflow: hidden; position: relative; padding: 16px; }
+  .photo { padding: 0; }
+  .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cap { position: absolute; left: 14px; bottom: 12px; background: rgba(11,20,40,.72); color: #fff; padding: 5px 12px; border-radius: 20px; font-size: 13px; }
+  .navy { background: #1b3a5c; color: #fff; } .orange { background: #e8590c; color: #fff; } .white { background: #fff; } .grey { background: #f4f6f9; }
+  .big { font: 700 28px/1.15 'Montserrat', sans-serif; }
+  .tags span { display: inline-block; margin: 3px 4px 3px 0; padding: 4px 12px; border-radius: 20px; background: rgba(255,255,255,.18); font-size: 14px; }
+  .sw { display: flex; flex-direction: column; justify-content: flex-end; color: #fff; font-size: 13px; }
+  .sw b { font: 600 15px 'Montserrat', sans-serif; }
+  .btn { display: inline-block; padding: 10px 20px; border-radius: 8px; background: #e8590c; color: #fff; font: 600 15px 'Montserrat', sans-serif; margin: 4px 6px 4px 0; }
+  .btn.ghost { background: transparent; color: #1b3a5c; border: 2px solid #1b3a5c; }
+  .st { display: inline-block; padding: 3px 12px; border-radius: 20px; font-size: 13px; font-weight: 600; margin: 3px 4px 3px 0; }
+  .s1 { background: #fff3bf; color: #8a6d00; } .s2 { background: #d0ebff; color: #1864ab; } .s3 { background: #d3f9d8; color: #2b8a3e; }
+  .mini { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(20,40,70,.12); padding: 12px 14px; }
+  .mini h4 { margin: 6px 0 2px; font: 600 16px 'Montserrat', sans-serif; color: #1b3a5c; }
+  .pat { background-color: #1b3a5c; background-image: radial-gradient(#e8590c 22%, transparent 24%), radial-gradient(#ffffff 22%, transparent 24%); background-size: 36px 36px; background-position: 0 0, 18px 18px; }
+  .lab { font-size: 12px; letter-spacing: .08em; text-transform: uppercase; opacity: .7; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<h1>Мудборд: «Конференции.РФ»</h1>
+<p class="sub">Деловой, но дружелюбный сервис бронирования. Ключевые слова: порядок, доверие, энергия.</p>
+<div class="board">
+  <div class="tile photo" style="grid-column: span 6; grid-row: span 5;"><img src="../frontend/static/img/hero.jpg" alt=""><span class="cap">Зал: настроение и композиция</span></div>
+  <div class="tile navy" style="grid-column: span 3; grid-row: span 2;"><div class="lab">Ключевые слова</div><div class="tags"><span>порядок</span><span>доверие</span><span>энергия</span><span>простота</span><span>для телефона</span></div></div>
+  <div class="tile orange" style="grid-column: span 3; grid-row: span 2;"><div class="lab">Идея</div><div class="big">Заявка за минуту, статус на виду</div></div>
+  <div class="tile sw" style="grid-column: span 2; grid-row: span 3; background:#1b3a5c;"><b>Синий</b>#1B3A5C<br>основной</div>
+  <div class="tile sw" style="grid-column: span 2; grid-row: span 3; background:#e8590c;"><b>Оранжевый</b>#E8590C<br>акцент</div>
+  <div class="tile sw" style="grid-column: span 2; grid-row: span 3; background:#f4f6f9; color:#1f2937;"><b>Серый фон</b>#F4F6F9<br>страница</div>
+  <div class="tile white" style="grid-column: span 4; grid-row: span 3;"><div class="lab">Типографика</div><div class="big" style="color:#1b3a5c;font-size:32px">Montserrat 700</div><p style="font-size:17px;margin:8px 0 0">Open Sans для основного текста: «Выберите помещение, дату и время».</p></div>
+  <div class="tile grey" style="grid-column: span 4; grid-row: span 3;"><div class="lab">Компоненты</div><span class="btn">Отправить заявку</span><span class="btn ghost">Войти</span><div><span class="st s1">Новая</span><span class="st s2">Мероприятие назначено</span><span class="st s3">Завершено</span></div></div>
+  <div class="tile grey" style="grid-column: span 4; grid-row: span 3;"><div class="lab">Карточка</div><div class="mini"><span class="st s2">Мероприятие назначено</span><h4>Встреча клуба Python</h4><div style="color:#6b7280;font-size:14px">2026-11-05, 18:30 · Коворкинг</div></div></div>
+  <div class="tile pat" style="grid-column: span 4; grid-row: span 3;"><span class="cap">Рисунок кресел из иллюстрации зала как фирменная текстура</span></div>
+  <div class="tile white" style="grid-column: span 4; grid-row: span 3;"><div class="lab">Настроение интерфейса</div><ul style="margin:6px 0 0;padding-left:18px;line-height:1.8"><li>скруглённые углы 8-12 px</li><li>мягкие тени у карточек</li><li>много воздуха, крупные кнопки</li><li>короткие анимации до 0.4 с</li></ul></div>
+</div>
+</body>
+</html>

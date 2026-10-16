@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="utf-8"><title>Цветовая схема</title>
+<link rel="stylesheet" href="../frontend/static/css/fonts.css">
+<style>
+ body{margin:0;padding:28px;font-family:'Open Sans',sans-serif;background:#fff;color:#1f2937;width:980px}
+ h1{font:700 28px 'Montserrat',sans-serif;color:#1b3a5c;margin:0 0 6px}p{margin:0 0 18px;color:#6b7280}
+ .row{display:flex;gap:14px;margin-bottom:22px}.c{flex:1;border-radius:12px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+ .c .s{height:120px}.c .t{padding:10px 12px;font-size:14px}.c b{display:block;font:600 15px 'Montserrat',sans-serif}
+ table{border-collapse:collapse;width:100%;font-size:14px}td,th{border:1px solid #dde3ea;padding:7px 10px;text-align:left}th{background:#f4f6f9}
+</style></head><body>
+<h1>Цветовая схема «Конференции.РФ»</h1><p>Основные цвета, акцент и цвета статусов заявки.</p>
+<div class="row">
+ <div class="c"><div class="s" style="background:#1b3a5c"></div><div class="t"><b>Основной синий</b>#1B3A5C<br>шапка, заголовки</div></div>
+ <div class="c"><div class="s" style="background:#e8590c"></div><div class="t"><b>Акцент оранжевый</b>#E8590C<br>кнопки, действия</div></div>
+ <div class="c"><div class="s" style="background:#f4f6f9"></div><div class="t"><b>Фон страницы</b>#F4F6F9</div></div>
+ <div class="c"><div class="s" style="background:#ffffff;border-bottom:1px solid #eee"></div><div class="t"><b>Карточки</b>#FFFFFF</div></div>
+ <div class="c"><div class="s" style="background:#1f2937"></div><div class="t"><b>Текст</b>#1F2937</div></div>
+</div>
+<div class="row">
+ <div class="c"><div class="s" style="background:#fff3bf;height:70px"></div><div class="t"><b>Новая</b>#FFF3BF, текст #8A6D00</div></div>
+ <div class="c"><div class="s" style="background:#d0ebff;height:70px"></div><div class="t"><b>Назначено</b>#D0EBFF, текст #1864AB</div></div>
+ <div class="c"><div class="s" style="background:#d3f9d8;height:70px"></div><div class="t"><b>Завершено</b>#D3F9D8, текст #2B8A3E</div></div>
+ <div class="c"><div class="s" style="background:#c92a2a;height:70px"></div><div class="t"><b>Ошибка</b>#C92A2A</div></div>
+</div>
+<table><tr><th>Пара цветов</th><th>Где используется</th><th>Контраст</th></tr>
+<tr><td>белый на #1B3A5C</td><td>шапка, заголовки на синем</td><td>11,6 : 1, отлично</td></tr>
+<tr><td>белый на #E8590C</td><td>кнопки</td><td>3,6 : 1, подходит для крупного жирного текста кнопок</td></tr>
+<tr><td>#1F2937 на #FFFFFF</td><td>основной текст</td><td>14,7 : 1, отлично</td></tr>
+<tr><td>#1B3A5C на #F4F6F9</td><td>заголовки на странице</td><td>10,7 : 1, отлично</td></tr></table>
+</body></html>

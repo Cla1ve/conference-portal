@@ -209,3 +209,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
     .toast { max-width: none; }
     .btn { min-height: 44px; }
 }
+
+/* личный кабинет */
+.profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.stat-row { display: flex; gap: 12px; margin: 12px 0 16px; }
+.stat { flex: 1; background: #f4f6f9; border-radius: 10px; padding: 14px 8px; text-align: center; display: flex; flex-direction: column; }
+.stat-num { font: 700 32px 'Montserrat', sans-serif; color: var(--accent); line-height: 1.1; }
+@media (max-width: 800px) { .profile-grid { grid-template-columns: 1fr; } }

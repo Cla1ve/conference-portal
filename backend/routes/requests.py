@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, jsonify, g
 
-from backend.models import Request, Review, dictionaries
+from backend.models import Request, Review, User, dictionaries
 from backend.security import login_required
 
 requests_bp = Blueprint("requests", __name__)
@@ -10,6 +10,12 @@ requests_bp = Blueprint("requests", __name__)
 @login_required("user")
 def dashboard():
     return render_template("dashboard.html", requests=Request.for_user(g.user["id"]))
+
+
+@requests_bp.get("/profile")
+@login_required("user")
+def profile():
+    return render_template("profile.html", profile=User.profile(g.user["id"]))
 
 
 @requests_bp.get("/request/new")

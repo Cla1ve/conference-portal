@@ -22,6 +22,7 @@
                 {% if user and user.role == 'user' %}
                     <a href="/dashboard">Мои заявки</a>
                     <a href="/request/new">Новая заявка</a>
+                    <a href="/profile">Профиль</a>
                 {% elif user and user.role == 'admin' %}
                     <a href="/admin">Панель администратора</a>
                 {% else %}

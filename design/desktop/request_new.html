@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="export_mockups.py" content="TD91S50BQdd57S2wqojBEjgdvYmoR3gp">
+    <title>Новая заявка, Конференции.РФ</title>
+    <link rel="stylesheet" href="../../frontend/static/css/fonts.css">
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../../frontend/static/css/style.css">
+</head>
+<body class="theme-conference">
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="index.html">
+                <img src="../../frontend/static/img/logo.svg" alt="" width="36" height="36">
+                <span>Конференции.РФ</span>
+            </a>
+            <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+            <nav class="nav" id="nav">
+                <a href="index.html">Главная</a>
+                
+                    <a href="dashboard.html">Мои заявки</a>
+                    <a href="request_new.html">Новая заявка</a>
+                    <a href="profile.html">Профиль</a>
+                
+                
+                    <span class="nav-user">Маматисаков Элмурат Сапарбекович</span>
+                    <button class="btn btn-ghost btn-small" id="logout-btn">Выйти</button>
+                
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page">
+        
+<div class="form-card form-card-wide">
+    <h1>Новая заявка</h1>
+    <p class="muted">Заполните данные, после проверки администратор назначит мероприятие.</p>
+    <form id="request-form" novalidate>
+        <div class="field">
+            <label for="event_name">Название</label>
+            <input id="event_name" name="event_name" type="text" maxlength="200" placeholder="Например, Встреча студенческого клуба">
+            <small class="error" data-error-for="event_name"></small>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label for="date">Дата</label>
+                <input id="date" name="date" type="date">
+                <small class="error" data-error-for="date"></small>
+            </div>
+            <div class="field">
+                <label for="start_time">Время начала</label>
+                <input id="start_time" name="start_time" type="time">
+                <small class="error" data-error-for="start_time"></small>
+            </div>
+        </div>
+        <div class="row">
+            <div class="field">
+                <label for="room_id">Помещение</label>
+                <select id="room_id" name="room_id">
+                    <option value="">Выберите из списка</option>
+                    <option value="1">Аудитория</option><option value="2">Коворкинг</option><option value="3">Кинозал</option>
+                </select>
+                <small class="error" data-error-for="room_id"></small>
+            </div>
+            <div class="field">
+                <label for="payment_method_id">Способ оплаты</label>
+                <select id="payment_method_id" name="payment_method_id">
+                    <option value="">Выберите из списка</option>
+                    <option value="1">При очном посещении</option><option value="2">СБП</option>
+                </select>
+                <small class="error" data-error-for="payment_method_id"></small>
+            </div>
+        </div>
+        <div class="field">
+            <label for="description">Описание (необязательно)</label>
+            <textarea id="description" name="description" rows="3" maxlength="1000"></textarea>
+            <small class="error" data-error-for="description"></small>
+        </div>
+        <p class="form-error" id="form-error" role="alert"></p>
+        <button class="btn" type="submit">Отправить заявку</button>
+    </form>
+</div>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">Конференции.РФ · учебный проект · Маматисаков Э.С., 4ИСП9-45</div>
+    </footer>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+    
+    
+</body>
+</html>

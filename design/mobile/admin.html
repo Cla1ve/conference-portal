@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="export_mockups.py" content="K9oLFqyzQ33GAIT9zqgmLYHptLrWWazb">
+    <title>Администратор, Конференции.РФ</title>
+    <link rel="stylesheet" href="../../frontend/static/css/fonts.css">
+    <link rel="stylesheet" href="../theme.css">
+    <link rel="stylesheet" href="../../frontend/static/css/style.css">
+    <link rel="stylesheet" href="mobile.css">
+</head>
+<body class="theme-conference">
+    <header class="topbar">
+        <div class="container topbar-inner">
+            <a class="brand" href="index.html">
+                <img src="../../frontend/static/img/logo.svg" alt="" width="36" height="36">
+                <span>Конференции.РФ</span>
+            </a>
+            <button class="burger" id="burger" aria-label="Меню" aria-expanded="false"><span></span><span></span><span></span></button>
+            <nav class="nav" id="nav">
+                <a href="index.html">Главная</a>
+                
+                    <a href="admin.html">Панель администратора</a>
+                
+                
+                    <span class="nav-user">Администратор Портала</span>
+                    <button class="btn btn-ghost btn-small" id="logout-btn">Выйти</button>
+                
+            </nav>
+        </div>
+    </header>
+
+    <main class="container page">
+        
+<div class="page-head">
+    <h1>Все заявки</h1>
+    <span class="muted" id="counter">Найдено: 3</span>
+</div>
+
+<form class="filters" id="filters">
+    <select name="status" aria-label="Статус">
+        <option value="">Все статусы</option>
+        <option value="1">Новая</option><option value="2">Мероприятие назначено</option><option value="3">Завершено</option>
+    </select>
+    <select name="room" aria-label="Помещение">
+        <option value="">Все помещения</option>
+        <option value="1">Аудитория</option><option value="2">Коворкинг</option><option value="3">Кинозал</option>
+    </select>
+    <input type="date" name="date" aria-label="Дата">
+    <input type="search" name="q" placeholder="Название или ФИО" aria-label="Поиск">
+    <button type="reset" class="btn btn-ghost btn-small" id="reset-btn">Сбросить</button>
+</form>
+
+<div class="cards" id="admin-cards"><article class="card"><div class="card-top"><span class="status status-1">Новая</span><span class="muted">№ 8</span></div><h3>Научная конференция студентов</h3><div class="user-line">Маматисаков Элмурат (elmurat2027)</div><dl class="meta"><div><dt>Дата</dt><dd>2026-12-05, 11:30</dd></div><div><dt>Помещение</dt><dd>Аудитория</dd></div><div><dt>Оплата</dt><dd>СБП</dd></div></dl><div class="card-actions"><button class="btn btn-small" type="button">Назначить мероприятие</button></div></article><article class="card"><div class="card-top"><span class="status status-2">Мероприятие назначено</span><span class="muted">№ 5</span></div><h3>Мастер-класс по дизайну интерфейсов</h3><div class="user-line">Иванова Анна (anna_ivanova)</div><dl class="meta"><div><dt>Дата</dt><dd>2026-11-10, 14:00</dd></div><div><dt>Помещение</dt><dd>Коворкинг</dd></div><div><dt>Оплата</dt><dd>При очном посещении</dd></div></dl><div class="card-actions"><button class="btn btn-small" type="button">Завершить</button></div></article><article class="card"><div class="card-top"><span class="status status-3">Завершено</span><span class="muted">№ 4</span></div><h3>Кинопоказ документального фильма</h3><div class="user-line">Иванова Анна (anna_ivanova)</div><dl class="meta"><div><dt>Дата</dt><dd>2026-10-31, 19:00</dd></div><div><dt>Помещение</dt><dd>Кинозал</dd></div><div><dt>Оплата</dt><dd>СБП</dd></div></dl></article></div>
+<p class="muted center" id="empty-msg" hidden>Заявок по такому фильтру нет.</p>
+
+    </main>
+
+    <footer class="footer">
+        <div class="container">Конференции.РФ · учебный проект · Маматисаков Э.С., 4ИСП9-45</div>
+    </footer>
+
+    <div class="toasts" id="toasts" aria-live="polite"></div>
+    
+    
+</body>
+</html>

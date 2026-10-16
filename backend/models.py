@@ -47,6 +47,17 @@ class User(BaseModel):
         return get_db().one("SELECT * FROM user WHERE login = ?", (login,))
 
     @staticmethod
+    def profile(user_id):
+        """Данные личного кабинета: профиль и счётчики заявок."""
+        db = get_db()
+        info = db.one("SELECT id, login, fio, email, phone, role FROM user WHERE id = ?", (user_id,))
+        info["total"] = db.one("SELECT COUNT(*) AS n FROM request WHERE user_id = ?", (user_id,))["n"]
+        info["done"] = db.one("SELECT COUNT(*) AS n FROM request WHERE user_id = ? AND status_id = 3", (user_id,))["n"]
+        info["reviews"] = db.one(
+            "SELECT COUNT(*) AS n FROM review rv JOIN request r ON r.id = rv.request_id WHERE r.user_id = ?", (user_id,))["n"]
+        return info
+
+    @staticmethod
     def find_by_id(user_id):
         return get_db().one("SELECT id, login, fio, email, phone, role FROM user WHERE id = ?", (user_id,))
 
