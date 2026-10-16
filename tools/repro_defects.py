@@ -34,7 +34,11 @@ r = client.post("/api/register", headers={"X-CSRF-Token": csrf("/register")}, js
     "phone": "8(900)-111-22-33", "email": "sp1@example.ru"})
 print("  ответ:", r.status_code, r.get_json())
 
-client.post("/api/login", headers={"X-CSRF-Token": csrf("/login")}, json={"login": "space_pass1", "password": " " * 8})
+# для второй проверки нужен обычный пользователь
+client.post("/api/register", headers={"X-CSRF-Token": csrf("/register")}, json={
+    "login": "repro_user1", "password": "Password123", "fio": "Петров Пётр",
+    "phone": "8(900)-111-22-34", "email": "repro1@example.ru"})
+client.post("/api/login", headers={"X-CSRF-Token": csrf("/login")}, json={"login": "repro_user1", "password": "Password123"})
 print("BR-003: заявка на сегодня со временем, которое уже прошло")
 past = (datetime.now() - timedelta(hours=3)).strftime("%H:%M")
 if datetime.now().hour < 3:
