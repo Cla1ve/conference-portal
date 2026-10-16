@@ -84,6 +84,13 @@ def create_app(test_config=None):
             return jsonify(success=False, message="Не найдено"), 404
         return render_template("error.html", code=404, text="Такой страницы нет"), 404
 
+    @app.errorhandler(500)
+    def server_error(error):
+        # пользователю показываем понятный текст, подробности остаются в логе сервера
+        if request.path.startswith("/api/"):
+            return jsonify(success=False, message="Ошибка на сервере, попробуйте позже"), 500
+        return render_template("error.html", code=500, text="Что-то пошло не так"), 500
+
     @app.errorhandler(413)
     def too_big(error):
         return jsonify(success=False, message="Слишком большой запрос"), 413

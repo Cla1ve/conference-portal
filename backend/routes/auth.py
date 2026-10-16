@@ -1,3 +1,4 @@
+import sqlite3
 import time
 
 from flask import Blueprint, render_template, request, jsonify, session, redirect, g
@@ -29,7 +30,12 @@ def register():
     errors = user.validate()
     if errors:
         return jsonify(success=False, message="Проверьте поля формы", errors=errors), 400
-    user.save()
+    try:
+        user.save()
+    except sqlite3.IntegrityError:
+        # такой логин или email успели занять между проверкой и записью
+        return jsonify(success=False, message="Проверьте поля формы",
+                       errors={"login": "Такой логин или email уже занят"}), 400
     return jsonify(success=True, message="Регистрация прошла успешно"), 201
 
 
