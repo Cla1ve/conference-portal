@@ -1,0 +1,105 @@
+// Общие функции для всех страниц
+
+function csrfToken() {
+    return document.querySelector('meta[name="csrf-token"]').content;
+}
+
+// запрос к API, возвращает уже разобранный JSON
+async function api(url, method, body) {
+    const options = {
+        method: method || 'GET',
+        headers: { 'X-CSRF-Token': csrfToken() },
+    };
+    if (body !== undefined) {
+        options.headers['Content-Type'] = 'application/json';
+        options.body = JSON.stringify(body);
+    }
+    try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        data.status = response.status;
+        return data;
+    } catch (err) {
+        console.error('Ошибка запроса', url, err);
+        return { success: false, message: 'Нет связи с сервером. Попробуйте позже.', status: 0 };
+    }
+}
+
+// всплывающее сообщение (type: ok, error или пусто)
+function toast(message, type) {
+    const box = document.getElementById('toasts');
+    const item = document.createElement('div');
+    item.className = 'toast ' + (type || '');
+    item.textContent = message;
+    box.appendChild(item);
+    setTimeout(function () {
+        item.classList.add('hide');
+        setTimeout(function () { item.remove(); }, 300);
+    }, 3500);
+}
+
+// показать ошибки под полями формы
+function showErrors(form, errors) {
+    clearErrors(form);
+    Object.keys(errors || {}).forEach(function (name) {
+        const holder = form.querySelector('[data-error-for="' + name + '"]');
+        if (holder) {
+            holder.textContent = errors[name];
+            const field = holder.closest('.field');
+            if (field) field.classList.add('invalid');
+        }
+    });
+}
+
+function clearErrors(form) {
+    form.querySelectorAll('.error').forEach(function (e) { e.textContent = ''; });
+    form.querySelectorAll('.field.invalid').forEach(function (f) { f.classList.remove('invalid'); });
+    const common = form.querySelector('.form-error');
+    if (common) common.textContent = '';
+}
+
+function formData(form) {
+    const result = {};
+    new FormData(form).forEach(function (value, key) { result[key] = value.trim ? value.trim() : value; });
+    return result;
+}
+
+// блокируем кнопку на время запроса, чтобы не отправить форму дважды
+async function withBusy(button, action) {
+    button.disabled = true;
+    try {
+        return await action();
+    } finally {
+        button.disabled = false;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    const logout = document.getElementById('logout-btn');
+    if (logout) {
+        logout.addEventListener('click', async function () {
+            const res = await api('/api/logout', 'POST', {});
+            location.href = res.redirect || '/login';
+        });
+    }
+
+    // мобильное меню
+    const burger = document.getElementById('burger');
+    const nav = document.getElementById('nav');
+    if (burger && nav) {
+        burger.addEventListener('click', function () {
+            const open = nav.classList.toggle('open');
+            burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    }
+
+    // плавный уход со страницы при переходе по внутренней ссылке
+    document.addEventListener('click', function (event) {
+        const link = event.target.closest('a[href^="/"]');
+        if (!link || event.ctrlKey || event.metaKey || link.target === '_blank') return;
+        event.preventDefault();
+        const page = document.querySelector('.page');
+        if (page) page.classList.add('leaving');
+        setTimeout(function () { location.href = link.getAttribute('href'); }, 160);
+    });
+});
