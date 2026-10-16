@@ -199,7 +199,11 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 }
 
 @media (max-width: 480px) {
-    .container { padding: 0 16px; }
+    .container { padding-left: 16px; padding-right: 16px; }
+    .page { padding-top: 20px; }
+    .form-card .btn[type=submit] { width: 100%; }
+    .page-head .btn { min-height: 40px; }
+    .form-card p a, .card p a { display: inline-block; padding: 8px 2px; }
     h1 { font-size: 24px; }
     .row { flex-direction: column; gap: 0; }
     .cards { grid-template-columns: 1fr; }
@@ -213,9 +217,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--accent); }
 /* личный кабинет */
 .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .stat-row { display: flex; gap: 12px; margin: 12px 0 16px; }
-.stat { flex: 1; background: #f4f6f9; border-radius: 10px; padding: 14px 8px; text-align: center; display: flex; flex-direction: column; }
+.stat { flex: 1; min-width: 0; background: #f4f6f9; border-radius: 10px; padding: 14px 8px; text-align: center; display: flex; flex-direction: column; }
 .stat-num { font: 700 32px 'Montserrat', sans-serif; color: var(--accent); line-height: 1.1; }
-@media (max-width: 800px) { .profile-grid { grid-template-columns: 1fr; } }
+@media (max-width: 800px) { .profile-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 360px) { .stat-row { gap: 8px; } .stat-num { font-size: 26px; } .stat { padding: 12px 4px; font-size: 13px; } }
 
 .btn-danger { background: transparent; color: var(--danger); border-color: var(--danger); }
 .btn-danger:hover { background: rgba(201, 42, 42, 0.08); }
