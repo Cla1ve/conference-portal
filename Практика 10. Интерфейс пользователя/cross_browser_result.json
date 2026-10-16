@@ -1,0 +1,48 @@
+{
+  "Chrome": {
+    "version": "155.0.8059.80",
+    "pages": [
+      {
+        "page": "/dashboard",
+        "overflow_px": 0,
+        "console_errors": 1,
+        "title": "Мои заявки, Конференции.РФ"
+      },
+      {
+        "page": "/request/new",
+        "overflow_px": 0,
+        "console_errors": 0,
+        "title": "Новая заявка, Конференции.РФ"
+      },
+      {
+        "page": "/profile",
+        "overflow_px": 0,
+        "console_errors": 0,
+        "title": "Личный кабинет, Конференции.РФ"
+      }
+    ]
+  },
+  "Edge": {
+    "version": "155.0.4283.45",
+    "pages": [
+      {
+        "page": "/dashboard",
+        "overflow_px": 0,
+        "console_errors": 1,
+        "title": "Мои заявки, Конференции.РФ"
+      },
+      {
+        "page": "/request/new",
+        "overflow_px": 0,
+        "console_errors": 0,
+        "title": "Новая заявка, Конференции.РФ"
+      },
+      {
+        "page": "/profile",
+        "overflow_px": 0,
+        "console_errors": 0,
+        "title": "Личный кабинет, Конференции.РФ"
+      }
+    ]
+  }
+}
