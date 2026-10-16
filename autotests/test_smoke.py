@@ -1,7 +1,6 @@
 """Задание 5: смоук-тесты собственного приложения (основные сценарии: открытие, регистрация, заявка, админ)."""
 import time
 
-import pytest
 from selenium.webdriver.common.by import By
 
 from autotests.conftest import DEMO_USER, ADMIN

@@ -3,7 +3,6 @@
 Запуск:  python tools/export_mockups.py
 Папка design/desktop для компьютера, design/mobile для телефона 390x844.
 """
-import os
 import re
 import sys
 from pathlib import Path

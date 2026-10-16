@@ -1,7 +1,7 @@
 import unittest
 from datetime import date, timedelta
 
-from tests.helpers import make_app, get_token, post_json, register_and_login, login_admin, USER
+from tests.helpers import make_app, post_json, register_and_login, login_admin, USER
 
 FUTURE = (date.today() + timedelta(days=20)).isoformat()
 PAST = (date.today() - timedelta(days=2)).isoformat()

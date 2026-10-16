@@ -1,12 +1,12 @@
 import os
 import time
 from datetime import timedelta
+from pathlib import Path
 
-from flask import Flask, session, request, g, jsonify, render_template
+from flask import Flask, session, request, g, jsonify, render_template, url_for
 
 from backend import config
 from backend.db import get_db
-from backend.models import dictionaries
 from backend.security import csrf_token, check_csrf
 from backend.themes import THEMES
 
@@ -26,6 +26,7 @@ def create_app(test_config=None):
         PERMANENT_SESSION_LIFETIME=timedelta(minutes=30),
         MAX_CONTENT_LENGTH=32 * 1024,
         THEME=os.environ.get("THEME", config.THEME),
+        USE_MIN=os.environ.get("USE_MIN", "1") != "0",
     )
     if test_config:
         app.config.update(test_config)
@@ -48,10 +49,22 @@ def create_app(test_config=None):
         if request.method in ("POST", "PUT", "PATCH", "DELETE") and not check_csrf():
             return jsonify(success=False, message="Страница устарела, обновите её и повторите"), 400
 
+    static_dir = Path(app.static_folder)
+
+    def asset(path):
+        """Адрес css/js файла: минифицированный из static/dist, если он есть, иначе исходный.
+        В конце ?v= с временем изменения файла, чтобы браузер брал свежую версию."""
+        name, ext = path.rsplit(".", 1)
+        small = "dist/" + name.split("/")[-1] + ".min." + ext
+        # если исходник правили после сборки, берём исходник, а не устаревший min-файл
+        if app.config["USE_MIN"] and (static_dir / small).exists()                 and (static_dir / small).stat().st_mtime >= (static_dir / path).stat().st_mtime:
+            path = small
+        return url_for("static", filename=path, v=int((static_dir / path).stat().st_mtime))
+
     @app.context_processor
     def inject_globals():
         theme = THEMES.get(app.config["THEME"], THEMES["conference"])
-        return {"theme": theme, "csrf_token": csrf_token, "user": g.get("user")}
+        return {"theme": theme, "csrf_token": csrf_token, "user": g.get("user"), "asset": asset}
 
     @app.after_request
     def add_headers(response):

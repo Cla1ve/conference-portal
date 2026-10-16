@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>{% block title %}{{ theme.brand }}{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/fonts.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     <link rel="stylesheet" href="/theme.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body class="theme-{{ config.THEME }}">
     <header class="topbar">
@@ -46,7 +46,7 @@
     </footer>
 
     <div class="toasts" id="toasts" aria-live="polite"></div>
-    <script src="{{ url_for('static', filename='js/common.js') }}"></script>
+    <script src="{{ asset('js/common.js') }}"></script>
     {% block scripts %}{% endblock %}
 </body>
 </html>

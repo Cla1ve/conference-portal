@@ -76,8 +76,6 @@ class AdminPage(BasePage):
     CARDS = (By.CSS_SELECTOR, "#admin-cards article")
 
     def card_with(self, title):
-        from selenium.webdriver.support import expected_conditions as EC
-
         def find(driver):
             for card in driver.find_elements(*self.CARDS):
                 if title in card.text:
